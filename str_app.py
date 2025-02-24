@@ -2,13 +2,9 @@ import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
 from legal_prompt import rulebook  # Importing the rulebook variable
 from google.generativeai import configure as google_configure, GenerativeModel
-import openai
-import anthropic
 import keys
 
 # Configure APIs
-openai.api_key = keys.OPENAI_API_KEY
-anthropic_client = anthropic.Anthropic(api_key=keys.ANTHROPIC_API_KEY)
 google_configure(api_key=keys.GOOGLE_API_KEY)
 gemini_model = GenerativeModel("gemini-1.5-flash")
 
@@ -33,34 +29,18 @@ def split_text(text, chunk_size):
 # Function to analyze contract risks
 def analyze_contract(text, model_choice):
     """Analyze contract text using the selected model."""
-    prompt = f"""
-    {rulebook}
-    
-    Contract Text:
-    {text}
-    """
     if model_choice == "Google's Gemini Flash 1.5":
+        prompt = f"""
+        {rulebook}
+        
+        Contract Text:
+        {text}
+        """
         response = gemini_model.generate_content(prompt)
         return response.text if response else "No response from Gemini."
     
-    elif model_choice == "OpenAI's GPT-4":
-        response = openai.ChatCompletion.create(
-            model="gpt-4-turbo",
-            messages=[
-                {"role": "system", "content": rulebook},
-                {"role": "user", "content": text}
-            ]
-        )
-        return response.choices[0].message.content
-    
-    elif model_choice == "Anthropic's Claude":
-        response = anthropic_client.messages.create(
-            model="claude-3-opus-20240229",
-            max_tokens=min(4096, len(text.split()) // 2),  # Adjusting dynamically to avoid exceeding limits
-            system=rulebook,  # Pass rulebook separately
-            messages=[{"role": "user", "content": text}]
-        )
-        return response.content[0].text if response and response.content else "No response from Claude."
+    elif model_choice in ["OpenAI's GPT-4", "Anthropic's Claude"]:
+        return "We are still working on this model. Please try again later."
 
 # Streamlit UI setup
 st.set_page_config(page_title="LEGAL CONTRACT REVIEW: DOMESTIC ORDERS (INDIA)", layout="wide")
