@@ -1,0 +1,5 @@
+streamlit
+pymupdf  # For extracting text from PDFs (fitz module)
+google-generativeai  # For Google Gemini API
+openai  # For OpenAI's GPT-4 (if needed later)
+anthropic  # For Anthropic Claude (if needed later)
