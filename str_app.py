@@ -54,7 +54,7 @@ with st.sidebar:
     uploaded_file = st.file_uploader("Upload your contract", type=["pdf"])
     
     # Model selection (placed below file uploader)
-    db_options = ["OpenAI's GPT-4", "Google's Gemini Flash 1.5", "Anthropic's Claude"]
+    db_options = ["Google's Gemini Flash 1.5","OpenAI's GPT-4", "Anthropic's Claude"]
     selected_model = st.selectbox("Select AI Model", db_options)
 
 # Main functionality
