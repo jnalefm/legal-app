@@ -171,6 +171,9 @@ Final Review Instructions:
 4. Ensure consistency in terminology and align all clauses with the provided standards.
 5. Add overall summary of the contract and risk analysis, in the end.
 
-
-Note : Strictly follow the format of rulebook and make sure to analyze all the clauses carefully.
+Note: Strictly follow the format of this rulebook and ensure that all clauses are analyzed carefully. 
+The revised clauses must maintain legal language and should not include any explanatory thoughts, reasoning, 
+or non-legal phrasing. The output should strictly adhere to the required deviation statement format, using 
+strikethrough for deletions and bold for additions. Additionally, the defined terms (e.g., "Seller," "Buyer") 
+must be used consistently throughout the document, aligning with the contract's structure and context.
 '''
