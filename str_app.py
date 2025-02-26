@@ -1,6 +1,5 @@
 import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
-from legal_prompt import rulebook  # Importing the rulebook variable
 from google.generativeai import configure as google_configure, GenerativeModel
 import keys
 
@@ -10,6 +9,15 @@ gemini_model = GenerativeModel("gemini-1.5-flash")
 
 # Token limit for Gemini
 GEMINI_MAX_TOKENS = 1000000  # Approximate maximum for Gemini 1.5 Flash
+
+# Default prompt instructions
+DEFAULT_PROMPT = """
+Add overall summary of the contract and risk analysis, in the end. Strictly follow the format of this rulebook and ensure that all clauses are analyzed carefully. 
+The revised clauses must maintain legal language and should not include any explanatory thoughts, reasoning, 
+or non-legal phrasing. The output should strictly adhere to the required deviation statement format, using 
+strikethrough for deletions and bold for additions. Additionally, the defined terms (e.g., "Seller," "Buyer") 
+must be used consistently throughout the document, aligning with the contract's structure and context.
+"""
 
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_file):
@@ -25,10 +33,12 @@ def split_text(text, chunk_size):
     return [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
 
 # Function to analyze contract risks
-def analyze_contract(text):
+def analyze_contract(text, rulebook):
     """Analyze contract text using Gemini."""
     prompt = f"""
     {rulebook}
+    
+    {DEFAULT_PROMPT}
     
     Contract Text:
     {text}
@@ -42,13 +52,23 @@ st.set_page_config(page_title="LEGAL CONTRACT REVIEW: DOMESTIC ORDERS (INDIA)", 
 # Sidebar UI
 with st.sidebar:
     st.image("fm-logo.png", use_container_width=True)
-    st.write("Upload your Domestic Order Contracts (India) and receive an instant Legal Risk Assessment. Simplify your contract review process effortlessly!**Happy reviewing!**")
+    st.write("Upload your Domestic Order Contracts (India) and receive an instant Legal Risk Assessment. Simplify your contract review process effortlessly! **Happy reviewing!**")
     
-    # File upload
-    uploaded_file = st.file_uploader("Upload your contract", type=["pdf"])
+    # Rulebook upload section
+    st.subheader("Upload Rulebook")
+    rulebook_file = st.file_uploader("Upload Rulebook (PDF)", type=["pdf"], key="rulebook")
+    
+    if rulebook_file:
+        rulebook_text = extract_text_from_pdf(rulebook_file)
+    else:
+        rulebook_text = ""
+    
+    # File upload for contract
+    st.subheader("Upload Contract")
+    uploaded_file = st.file_uploader("Upload your contract (PDF)", type=["pdf"], key="contract")
 
 # Main functionality
-if uploaded_file:
+if uploaded_file and rulebook_text:
     with st.spinner("Extracting text from contract..."):
         contract_text = extract_text_from_pdf(uploaded_file)
     
@@ -61,9 +81,9 @@ if uploaded_file:
             risk_analysis = "" 
             
             for chunk in text_chunks:
-                risk_analysis += analyze_contract(chunk) + "\n\n"
+                risk_analysis += analyze_contract(chunk, rulebook_text) + "\n\n"
         
         st.subheader("Risk Analysis Report")
         st.write(risk_analysis)
 else:
-    st.info("Upload a contract PDF to start analyzing.")
+    st.info("Please upload both a rulebook and a contract PDF to start analyzing.")
