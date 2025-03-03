@@ -1,11 +1,10 @@
 import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
 from google.generativeai import configure as google_configure, GenerativeModel
-# import keys
+import legal_prompt
 
 # Configure Google Gemini API
 google_configure(api_key=st.secrets.GOOGLE_API_KEY)
-# google_configure(api_key=keys.GOOGLE_API_KEY)
 gemini_model = GenerativeModel("gemini-1.5-flash")
 
 # Token limit for Gemini
@@ -13,11 +12,15 @@ GEMINI_MAX_TOKENS = 1000000  # Approximate maximum for Gemini 1.5 Flash
 
 # Default prompt instructions
 DEFAULT_PROMPT = """
-Add overall summary of the contract and risk analysis, in the end. Strictly follow the format of this rulebook and ensure that all clauses are analyzed carefully. 
-The revised clauses must maintain legal language and should not include any explanatory thoughts, reasoning, 
-or non-legal phrasing. The output should strictly adhere to the required deviation statement format, using 
-strikethrough for deletions and bold for additions. Additionally, the defined terms (e.g., "Seller," "Buyer") 
-must be used consistently throughout the document, aligning with the contract's structure and context.
+Note: 
+1. Add overall summary of the contract and risk analysis, in the end. 
+2. Strictly follow the format of this rulebook and ensure that all clauses are analyzed carefully. 
+3. The revised clauses must maintain legal language and should not include any explanatory 
+thoughts, reasoning, or non-legal phrasing. 
+4. The output should strictly adhere to the required deviation statement format, using 
+strikethrough for deletions and bold for additions. 
+5. Refer to entities exactly as they appear in the contract. If the contract uses "Buyer" or "Seller,"
+retain those terms. If a company name is used instead, ensure it is consistently applied throughout the analysis.
 """
 
 # Function to extract text from a PDF
@@ -44,6 +47,7 @@ def analyze_contract(text, rulebook):
     Contract Text:
     {text}
     """
+    # response = gemini_model.generate_content(prompt,generation_config={"temperature": 0.8})
     response = gemini_model.generate_content(prompt)
     return response.text if response else "No response from Gemini."
 
@@ -55,18 +59,22 @@ with st.sidebar:
     st.image("fm-logo.png", use_container_width=True)
     st.write("Upload your Domestic Order Contracts (India) and receive an instant Legal Risk Assessment. Simplify your contract review process effortlessly! **Happy reviewing!**")
     
-    # Rulebook upload section
-    st.subheader("Upload Rulebook")
-    rulebook_file = st.file_uploader("Upload Rulebook (PDF)", type=["pdf"], key="rulebook")
-    
-    if rulebook_file:
-        rulebook_text = extract_text_from_pdf(rulebook_file)
-    else:
-        rulebook_text = ""
-    
     # File upload for contract
     st.subheader("Upload Contract")
     uploaded_file = st.file_uploader("Upload your contract (PDF)", type=["pdf"], key="contract")
+
+# Editable Rulebook Section
+st.subheader("Modify Rulebook")
+rulebook_text = st.text_area("Modify the rulebook as needed:",legal_prompt.rulebook, height=500)
+
+# Save Button for Rulebook
+if st.button("Save Rulebook"):
+    st.session_state["saved_rulebook"] = rulebook_text
+    st.success("Rulebook saved successfully!")
+
+# Use the saved rulebook if available
+if "saved_rulebook" in st.session_state:
+    rulebook_text = st.session_state["saved_rulebook"]
 
 # Main functionality
 if uploaded_file and rulebook_text:
@@ -77,7 +85,7 @@ if uploaded_file and rulebook_text:
     text_chunks = split_text(contract_text, GEMINI_MAX_TOKENS)
 
     # Analyze button
-    if st.sidebar.button("Analyze Risks"):
+    if st.button("Analyze Risks"):
         with st.spinner("Analyzing contract risks..."):
             risk_analysis = "" 
             
@@ -87,4 +95,4 @@ if uploaded_file and rulebook_text:
         st.subheader("Risk Analysis Report")
         st.write(risk_analysis)
 else:
-    st.info("Please upload both a rulebook and a contract PDF to start analyzing.")
+    st.info("Please upload a contract PDF and ensure the rulebook is filled in to start analyzing.")
