@@ -1,7 +1,7 @@
 import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
 from google.generativeai import configure as google_configure, GenerativeModel
-import keys
+# import keys
 
 # Configure Google Gemini API
 google_configure(api_key=st.secrets.GOOGLE_API_KEY)
