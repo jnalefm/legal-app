@@ -10,10 +10,12 @@ from langchain.schema import SystemMessage, HumanMessage
 import legal_prompt
 import instructions
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from google.generativeai import configure as google_configure
 
 
 # Configure LangChain Gemini Model
-gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=st.secrets.GOOGLE_API_KEY)
+google_configure(api_key=st.secrets.GOOGLE_API_KEY)
+gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 # gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key=keys.GOOGLE_API_KEY)
 
 # Token limit for processing
