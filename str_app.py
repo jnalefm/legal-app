@@ -7,7 +7,6 @@ import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import SystemMessage, HumanMessage
-import keys
 import legal_prompt
 import instructions
 from langchain.text_splitter import RecursiveCharacterTextSplitter
