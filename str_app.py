@@ -13,7 +13,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 # Configure LangChain Gemini Model
-gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=keys.GOOGLE_API_KEY)
+gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=st.secrets.GOOGLE_API_KEY)
 # gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key=keys.GOOGLE_API_KEY)
 
 # Token limit for processing
