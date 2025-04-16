@@ -1,7 +1,7 @@
 #using langchain
 #default temperature=0.7
 #adding default prompt editable text area
-
+#code file before adding docx and download feature
 
 import streamlit as st
 import fitz  # PyMuPDF for extracting text from PDFs
