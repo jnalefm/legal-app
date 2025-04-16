@@ -10,8 +10,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from google.generativeai import configure as google_configure
 # import keys
 from io import BytesIO
-import markdown
-from weasyprint import HTML
+# import markdown
+# from weasyprint import HTML
 import re
 from google.generativeai import configure as google_configure
 
@@ -57,77 +57,6 @@ def analyze_contract(text, rulebook, instructions):
     ]
     response = gemini_model.invoke(messages)
     return response.content if response else "No response from Gemini."
-
-# Generate a PDF from markdown content with styling
-def generate_pdf(content):
-    html_content = markdown.markdown(
-        content,
-        extensions=["tables", "fenced_code", "nl2br", "smarty"]
-    )
-
-    styled_html = f"""
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                font-size: 12pt;
-                margin: 40px;
-                line-height: 1.5;
-            }}
-            .header {{
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-            }}
-            .logo {{
-                width: 120px;
-                height: auto;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                margin: 20px 0;
-            }}
-            th, td {{
-                border: 1px solid #333;
-                padding: 8px;
-                text-align: left;
-                vertical-align: top;
-            }}
-            th {{
-                background-color: #f2f2f2;
-            }}
-            strong, b {{
-                font-weight: bold;
-            }}
-            del {{
-                text-decoration: line-through;
-                color: blue;
-            }}
-            code {{
-                background-color: #f9f9f9;
-                font-family: monospace;
-                padding: 2px 4px;
-                border-radius: 4px;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <img src="fm-logo.png" alt="Logo" class="logo" />
-        </div>
-        {html_content}
-    </body>
-    </html>
-    """
-
-    pdf_io = BytesIO()
-    HTML(string=styled_html, base_url=".").write_pdf(target=pdf_io)  # base_url needed for relative path to image
-    pdf_io.seek(0)
-    return pdf_io
-
 
 # UI Setup
 st.set_page_config(
@@ -201,13 +130,5 @@ if uploaded_file and rulebook_text and instructions_text:
         st.subheader("Risk Analysis Report")
         st.markdown(risk_analysis, unsafe_allow_html=True)
 
-        # Generate downloadable PDF
-        pdf_bytes = generate_pdf(risk_analysis)
-        st.download_button(
-            label="Download Report as PDF",
-            data=pdf_bytes,
-            file_name="contract_risk_analysis.pdf",
-            mime="application/pdf"
-        )
 else:
     st.info("Please upload a contract PDF or Word file and ensure the rulebook and default instructions are filled in.")
