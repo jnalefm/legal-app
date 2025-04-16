@@ -6,3 +6,7 @@ anthropic  # For Anthropic Claude (if needed later)
 langchain-google-genai
 langchain_community
 langchain
+streamlit
+python-docx
+weasyprint
+markdown
