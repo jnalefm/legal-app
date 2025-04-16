@@ -8,6 +8,3 @@ langchain_community
 langchain
 streamlit
 python-docx
-markdown
-weasyprint==59.0
-cffi
