@@ -8,3 +8,7 @@ langchain_community
 langchain
 streamlit
 python-docx
+Markdown
+python-docx
+beautifulsoup4
+
