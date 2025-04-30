@@ -1,4 +1,4 @@
-DEFAULT_PROMPT = """
+rulebook = """
 CONTRACT REVIEW PLAYBOOK  
 Domestic Contracts | Focus: Protecting the Seller (Pune, India)  
 Playbook Version: 2.2  
