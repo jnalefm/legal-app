@@ -10,7 +10,7 @@ import instructions
 # import instructions_updated as instructions
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from google.generativeai import configure as google_configure
-import keys
+# import keys
 from io import BytesIO
 import markdown
 # from weasyprint import HTML
@@ -22,13 +22,13 @@ from report import report_downloader
 
 
 # # Configure LangChain Gemini Model
-# google_configure(api_key=st.secrets.GOOGLE_API_KEY)
-# gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+google_configure(api_key=st.secrets.GOOGLE_API_KEY)
+gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 # Configure LangChain Gemini Model
-gemini_model = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash", 
-    google_api_key=keys.GOOGLE_API_KEY
-)
+# gemini_model = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-flash", 
+#     google_api_key=keys.GOOGLE_API_KEY
+# )
 
 # Token limit
 GEMINI_MAX_TOKENS = 1000000
