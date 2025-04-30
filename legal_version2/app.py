@@ -79,6 +79,8 @@ with st.sidebar:
         key="contract"
     )
 
+st.header("Legal Risk Assessment Tool -- Version 2.0")
+
 # Editable Instructions
 st.subheader("Modify Default Instructions")
 instructions_text = st.text_area(
