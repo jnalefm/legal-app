@@ -146,7 +146,7 @@ if uploaded_file and rulebook_text and instructions_text:
                 risk_analysis_html = markdown.markdown(risk_analysis, extensions=["tables"])
 
                 # THEN: Generate DOCX
-                docx_bytes = report_downloader(risk_analysis_html,logo_path="/home/jueli/Legal/legal-usecase2/fm-logo.png")
+                docx_bytes = report_downloader(risk_analysis_html,logo_path="fm-logo.png")
 
                 st.download_button(
                     label="Download Report as Word (.docx)",
