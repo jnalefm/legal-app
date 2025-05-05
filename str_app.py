@@ -78,7 +78,7 @@ with st.sidebar:
         key="contract"
     )
 
-st.header("Legal Risk Assessment Tool -- Version 2.0")
+st.header("Legal Risk Assessment Tool -- Version 1.0")
 
 # Editable Instructions
 st.subheader("Modify Default Instructions")
