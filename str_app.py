@@ -22,7 +22,7 @@ from report import report_downloader
 
 # # Configure LangChain Gemini Model
 google_configure(api_key=st.secrets.GOOGLE_API_KEY)
-gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash",temperature=0.0)
+gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 # Configure LangChain Gemini Model
 # gemini_model = ChatGoogleGenerativeAI(
 #     model="gemini-1.5-flash", 
