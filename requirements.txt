@@ -1,17 +1,27 @@
+# Requirements.txt for Legal Contract Analyzer
+
+# Core App
 streamlit
-pymupdf  # For extracting text from PDFs (fitz module)
-google-generativeai  # For Google Gemini API
-openai  # For OpenAI's GPT-4 (if needed later)
-anthropic  # For Anthropic Claude (if needed later)
+Markdown
+
+# PDF & Word Processing
+pymupdf  # fitz - for reading PDFs
+python-docx
+pdf2image  # Needs poppler-utils installed on system
+pillow  # For image handling
+pytesseract  # OCR engine
+beautifulsoup4  # For HTML parsing if needed
+
+# AI Model APIs
+google-generativeai
+openai
+anthropic
+
+# LangChain Integration
+langchain
 langchain-google-genai
 langchain_community
-langchain
-streamlit
-python-docx
-Markdown
-python-docx
-beautifulsoup4
-pytesseract 
-PyMuPDF 
-pdf2image 
-pillow
+
+# NOTE: You must install poppler-utils separately for pdf2image to work:
+# sudo apt install poppler-utils
+
