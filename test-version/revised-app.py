@@ -23,6 +23,10 @@ from io import BytesIO
 import markdown
 import re
 import report
+import io
+from PIL import Image
+import pytesseract
+from pdf2image import convert_from_bytes
 
 # Configure Gemini
 google_configure(api_key=st.secrets.GOOGLE_API_KEY)
@@ -43,15 +47,54 @@ gemini_model = ChatGoogleGenerativeAI(
 # Constants
 GEMINI_MAX_WORDS = 150000  # approximate large limit, adjust if needed
 
-# Extract PDF text
-def extract_text_from_pdf(pdf_file):
-    doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
-    return "\n".join([page.get_text("text") for page in doc])
+# # Extract PDF text
+# def extract_text_from_pdf(pdf_file):
+#     doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
+#     return "\n".join([page.get_text("text") for page in doc])
 
-# Extract DOCX text
+# # Extract DOCX text
+# def extract_text_from_word(word_file):
+#     doc = docx.Document(word_file)
+#     return "\n".join([para.text for para in doc.paragraphs])
+
+#adding ocr for scanned docs
+
+# Extract text from PDF (including scanned with OCR)
+def extract_text_from_pdf(pdf_file):
+    text = ""
+    pdf_bytes = pdf_file.read()
+    
+    # Try extracting selectable text using PyMuPDF
+    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+    for page in doc:
+        page_text = page.get_text("text")
+        text += page_text + "\n"
+    
+    # If the text is mostly empty, apply OCR
+    if len(text.strip()) < 50:
+        print("Applying OCR for scanned PDF...")
+        images = convert_from_bytes(pdf_bytes)
+        text = "\n".join([pytesseract.image_to_string(img) for img in images])
+    
+    return text
+
+# Extract text from DOCX
 def extract_text_from_word(word_file):
     doc = docx.Document(word_file)
-    return "\n".join([para.text for para in doc.paragraphs])
+    text = "\n".join([para.text for para in doc.paragraphs])
+    
+    # If no text found (possibly a scanned DOCX with images), apply OCR
+    if len(text.strip()) < 50:
+        print("Applying OCR for scanned DOCX...")
+        for shape in doc.inline_shapes:
+            try:
+                image_bytes = shape.image.blob
+                image = Image.open(io.BytesIO(image_bytes))
+                text += pytesseract.image_to_string(image) + "\n"
+            except Exception as e:
+                print(f"OCR failed on shape: {e}")
+    
+    return text
 
 # Chunk text based on word count
 def split_text(text, chunk_size):
