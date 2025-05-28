@@ -11,4 +11,7 @@ python-docx
 Markdown
 python-docx
 beautifulsoup4
-
+pytesseract 
+PyMuPDF 
+pdf2image 
+pillow
