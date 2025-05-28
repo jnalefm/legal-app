@@ -72,7 +72,7 @@ def extract_text_from_pdf(pdf_file):
     
     # If the text is mostly empty, apply OCR
     if len(text.strip()) < 50:
-        st.write("Applying OCR for scanned DOCX...")
+        st.spinner("Applying OCR for scanned DOCX...")
         # print("Applying OCR for scanned PDF...")
         images = convert_from_bytes(pdf_bytes)
         text = "\n".join([pytesseract.image_to_string(img) for img in images])
@@ -86,7 +86,7 @@ def extract_text_from_word(word_file):
     
     # If no text found (possibly a scanned DOCX with images), apply OCR
     if len(text.strip()) < 50:
-        st.write("Applying OCR for scanned DOCX...")
+        st.spinner("Applying OCR for scanned DOCX...")
         # print("Applying OCR for scanned DOCX...")
         for shape in doc.inline_shapes:
             try:
