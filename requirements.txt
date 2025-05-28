@@ -22,7 +22,9 @@ langchain
 langchain-google-genai
 langchain_community
 
-pdf2image packages.txt poppler-utils
+pdf2image 
+packages.txt 
+poppler-utils
 
 # NOTE: You must install poppler-utils separately for pdf2image to work:
 # sudo apt install poppler-utils
