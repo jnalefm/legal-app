@@ -167,8 +167,11 @@ interest, suffered under this Purchase Order, even if advised in advance of the 
 of such losses and (b) consequential, incidental, special, indirect, or punitive damages,
 costs, charges, losses.
 
-NOTE: DO NOT change the following clauses:
+NOTE: DO NOT change the following clauses unless and until there is some legal risk involved:
 1. Payment Terms Clause
 2. Acceptance and Rejection Clause
+3. Guarantee
+4. Warantee
+5. Packing
 
 '''
