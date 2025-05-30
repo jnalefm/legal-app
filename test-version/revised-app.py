@@ -132,7 +132,8 @@ Column Names:
 
 **Rules for Deviation Sheet:**
 - DO NOT skip this table.
-- DO NOT include missing clauses (i.e., clauses required by the 'Guidelines for Clause Review' but absent from the contract) in the Deviation Sheet.
+- DO NOT add missing clauses to the Deviation Sheet. Log them separately in "Clause Gap Analysis Report" below the sheet. 
+  The Deviation Sheet is only for deviations from existing clauses.
 - Only include in the Deviation Sheet those clauses that are present in the contract and have identified legal or commercial risks.
 - Only include the specific sub-clause (e.g., 17.2.3) where the legal or commercial risk exists.
 - DO NOT use placeholders such as “The entire Clause”or "Entire Clause" or “Refer Clause” in the deviation sheet,instead mention actual clause.
