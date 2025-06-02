@@ -135,6 +135,11 @@ refund, the Buyer should not be entitled to any refund.
 ○ In the event of termination due to defective goods/services, the Buyer can only
 claim a refund for defective goods/services that are proven to be defective.
 
+12. Consequential loss 
+● Guidelines:
+○ For consequential loss clauses: identify exclusions, note party scope, assess risk 
+(unilateral is high risk to unprotected party), then add to Deviation Sheet (if deviation) 
+or Missing Clause Log (if absent).
 
 **Part 2: Identifying and Addressing Liability Clauses**
 
