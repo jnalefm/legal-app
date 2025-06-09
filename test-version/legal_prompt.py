@@ -176,7 +176,7 @@ NOTE: DO NOT change the following clauses unless and until there is some legal r
 1. Payment Terms Clause
 2. Acceptance and Rejection Clause
 3. Guarantee
-4. Warantee
+4. Warranty
 5. Packing
 
 '''
